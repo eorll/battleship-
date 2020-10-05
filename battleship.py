@@ -9,7 +9,7 @@ def print_board(board):
     for row in board:
         print((" ").join(row))
 
-def get_ship_place() #Pobieranie od uzytkownika miesca statków, zapisywanie i zwaracanie współrzędnych 
+def get_ship_place() #Pobieranie od uzytkownika miesca statków, zapisywanie i zwaracanie współrzędnych. Ustalenie rodzaju i ilosci statkow 
     pass
 
 def get_player_move() #
@@ -35,9 +35,30 @@ def menu()
 
 def battleship_game()
 
-# board; players1_ships; player2_ships; player_1_moves; player_2_moves
+# board; players1_ships; player2_ships; player_1_moves; player_2_moves; 
 
-while has_won() == False
+Player1_ships = get_ship_place()
+Player2_ships = get_ship_place()
+Player1_moves = starting_board()
+Player2_moves = starting_board()
+
+n = 0
+
+while has_won() == False:
+    print_board(Player1_moves)
+    print_board(Player2_moves)
+    if n = 0: 
+        Player1_moves = get_player_move(Player1_moves)
+
+
+
+        n +=1 
+    if n = 1: 
+        Player2_moves = get_player_move(Player2_moves)  
+
+
+        n -=1 
+    
 
 
 
