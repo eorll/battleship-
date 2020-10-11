@@ -48,7 +48,7 @@ def get_ship_place():
 # Allows new game to start
 def play_again():
 
-    play_one-more_time = ["yes", "y"] 
+    play_one_more_time = ["yes", "y"] 
     play_not = ["no", "n"]
 
     while True
@@ -74,7 +74,7 @@ def play_again():
         guess_col = input("Guess Col: (allowed values: 0-4) ")
 
         if (guess_row == column_number in range(len(board[0]) + 1)  and guess_col == ship_list) or (guess_row == row_number in range(len(board) + 1 and guess_row == ship_list):
-            is_hit = is_hit + 1
+            is_hit == is_hit + 1
             board[guess_row][guess_col] = "*"
             print ("Congratulations! ")
             if is_hit == 1:
