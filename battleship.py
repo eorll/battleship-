@@ -30,6 +30,7 @@ def get_ship_place():
     board = starting_board()
     while len(ship_list) != 2:
         try:
+            os.system("cls || clear")
             print_board(board)
             column_number = int(input("Enter row number: "))
             row_number = int(input("Enter column number:"))
@@ -39,17 +40,17 @@ def get_ship_place():
                         ship_list.append([column_number - 1,row_number - 1]) 
                         taken_places(forbidden_places,column_number - 1, row_number - 1)
                     else:
-                        print("Place already taken!")
+                        input("Place already taken!")
                 else:
-                    print("Enter valid coordinates!")
+                    input("Enter valid coordinates!")
             else:
-                print("Too close to another ship!")
+                input("Too close to another ship!")
             for i in ship_list:
                 board[i[0]][i[1]] = "✈"
-            input("Press enter to continue.")
             os.system("cls || clear")
         except:
-            print("Only numbers!")
+            input("Use only numbers!")
+    print_board(board)
     return board
 
 
@@ -81,7 +82,6 @@ def get_player_move(player_moves):
                 return [row_number -1, column_number -1]
             else: 
                 input("Pleas enter valid move!")
-            input("Press enter to continue.")
             os.system("cls || clear")
         except: 
             input("Enter only numbers!")
@@ -93,12 +93,12 @@ def is_hit(player_X_ship, player_Y_moves, coordinates):
         player_Y_moves[coordinates[0]][coordinates[1]] = '☠'
         os.system("cls || clear")
         print_board(player_Y_moves)
-        print('HIT')
+        print('     HIT')
     else:
         player_Y_moves[coordinates[0]][coordinates[1]] = '≋'
         os.system("cls || clear")
         print_board(player_Y_moves)
-        print("MISS")
+        print("     MISS")
     return player_Y_moves
 
 def is_sunk():
@@ -109,32 +109,21 @@ def mark():
     # is_hit bierze to na siebie
     pass
 
-def has_won(players_1_ships, player_2_ships, player_1_moves, player_2_moves):
-    # w ogóle nie działa i w ogóle czemu zmienia to globalnie 
-    player_X_moves = player_1_moves.copy()
-    player_Y_moves = player_2_moves.copy()
-    players_X_ships = players_1_ships.copy()
-    player_Y_ships = player_2_ships.copy()
-    for i in player_X_moves:
-        for j in range(len(i) - 1):
-            if i[j] == '☠':
-                i[j] = "✈"
-            else:
-                i[j] = '▉'
-    
+def has_won(player_X_ships, player_Y_moves):
+    move_test = []
+    ship_test = []
+
     for i in player_Y_moves:
-        for j in range(len(i) - 1):
-            if i[j] == '☠':
-                i[j] = "✈"
-            else:
-                i[j] = '▉'
+        for j in i:
+            if j == '☠':
+                move_test.append('☠')
 
-
-    if player_X_moves == player_Y_ships :
-        print("Player 1 WON")
-        return True
-    elif player_Y_moves == players_X_ships :
-        print("Player 2 WON")
+    for i in player_X_ships:
+        for j in i:
+            if j == '✈':
+                ship_test.append('☠')
+    
+    if move_test == ship_test:
         return True
     else:
         return False
@@ -157,11 +146,21 @@ def battleship_game():
     input("Player 2 - Press Enter  ")
     player_2_ships = get_ship_place()
 
-    while has_won(player_1_ships, player_2_ships, player_1_moves, player_2_moves) == False:
+    while True:
+        
         input("Player 1 - Press Enter ")
+        os.system("cls || clear")
         is_hit(player_2_ships, player_1_moves, get_player_move(player_1_moves))
+        if has_won(player_2_ships,player_1_moves) == True:
+            print('Player 1 - WON')
+            break
+        
         input("Player 2 - Press Enter ")
+        os.system("cls || clear")
         is_hit(player_1_ships, player_2_moves, get_player_move(player_2_moves))
+        if has_won(player_1_ships,player_2_moves) == True:
+            print('Player 2 - WON')
+            break
 
         
 battleship_game()     
