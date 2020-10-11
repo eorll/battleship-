@@ -36,7 +36,7 @@ def get_ship_place():
  #def get_ship_place(): #Pobieranie od uzytkownika miesca statków, zapisywanie i zwaracanie współrzędnych 
     # pass
 
- def get_player_move(total_moves): 
+ def get_players_move(total_moves): 
      
 
     if total_moves % 2 == 0:
