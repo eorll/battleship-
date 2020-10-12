@@ -28,7 +28,20 @@ def get_ship_place():
     ship_list = []
     forbidden_places = []
     board = starting_board()
-    while len(ship_list) != 2:
+    input("Put 1 double ships!")
+    double_ship(board, ship_list, forbidden_places)
+    
+
+    input("Put 1 single ships! ")
+    single_ship(board, ship_list, forbidden_places)
+    
+   
+    return board
+
+
+def single_ship(board, ship_list, forbidden_places):
+    
+    while len(ship_list) != 3:
         try:
             os.system("cls || clear")
             print_board(board)
@@ -49,9 +62,54 @@ def get_ship_place():
                 board[i[0]][i[1]] = "✈"
             os.system("cls || clear")
         except:
-            input("Use only numbers!")
+            input("Use only numbers!")    
     print_board(board)
+    input("Press enter")    
+    os.system("cls || clear")   
     return board
+
+
+def double_ship(board, ship_list, forbidden_places):
+
+    while len(ship_list) != 2:
+        try:
+            os.system("cls || clear")
+            print_board(board)
+            column_number = int(input("Enter row number: "))
+            row_number = int(input("Enter column number:"))
+            ship_position = input("Enter ship position (H/orizontial or V/ertical): ").upper()
+            xy_1 = (column_number - 1,row_number - 1)
+            
+            if ship_position == "H":
+                xy_2 = (column_number, row_number - 1)
+            elif ship_position == "V":
+                xy_2 = (column_number - 1,row_number)
+
+            if ship_position == 'H' or ship_position == 'V':
+                if (xy_1 not in forbidden_places) and (xy_2 not in forbidden_places):
+                    if (xy_1[0] in range(len(board[0]) + 1)) and (xy_2[0] in range(len(board[0]) + 1)) and (xy_1[1] in range(len(board) + 1)) and (xy_2[1] in range(len(board) + 1)) :
+                        if (xy_1 not in ship_list) and (xy_2 not in ship_list) :   
+                            ship_list.append(xy_1) 
+                            ship_list.append(xy_2) 
+                            taken_places(forbidden_places,xy_1[0], xy_1[1])
+                            taken_places(forbidden_places,xy_2[0], xy_2[1])     
+                        else:
+                            input("Place already taken!")
+                    else:
+                        input("Enter valid coordinates!")
+                else:
+                    input("Too close to another ship!")
+            else:
+                input("Enter valid position! H or V")
+            for i in ship_list:
+                    board[i[0]][i[1]] = "✈"
+            os.system("cls || clear")
+        except:
+            input("Use only numbers!")    
+    print_board(board)
+    input("Press enter")    
+    os.system("cls || clear")   
+    return board   
 
 
 def taken_places(forbidden_places,x, y):
@@ -88,7 +146,8 @@ def get_player_move(player_moves):
   
     
 def is_hit(player_X_ship, player_Y_moves, coordinates): 
-    # powinna brać tablice player_X_ships i koordynaty z get_player_move i zwracać hit lub miss na tablicy  player_Y_moves ≋ ☠
+    # powinna brać tablice player_X_ships i koordynaty z get_player_move i zwracać hit lub miss na tablicy  player_Y_moves ≋ ☠ ♨
+   
     if player_X_ship[coordinates[0]][coordinates[1]] == "✈":
         player_Y_moves[coordinates[0]][coordinates[1]] = '☠'
         os.system("cls || clear")
@@ -99,7 +158,10 @@ def is_hit(player_X_ship, player_Y_moves, coordinates):
         os.system("cls || clear")
         print_board(player_Y_moves)
         print("     MISS")
+
     return player_Y_moves
+
+                        
 
 def is_sunk():
     # na razie nie potrzebna
@@ -133,6 +195,7 @@ def print_result():
     pass 
 
 def menu():
+    # to można rozwinąć - można wybrać wielkość planszy, ilość statków itp. 
     pass 
 
 def battleship_game():
