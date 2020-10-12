@@ -147,12 +147,25 @@ def get_player_move(player_moves):
     
 def is_hit(player_X_ship, player_Y_moves, coordinates): 
     # powinna brać tablice player_X_ships i koordynaty z get_player_move i zwracać hit lub miss na tablicy  player_Y_moves ≋ ☠ ♨
-   
+    arround_places = []
+    taken_places(arround_places,coordinates[0], coordinates[1])
     if player_X_ship[coordinates[0]][coordinates[1]] == "✈":
         player_Y_moves[coordinates[0]][coordinates[1]] = '☠'
         os.system("cls || clear")
         print_board(player_Y_moves)
         print('     HIT')
+        for i in arround_places:
+            if player_X_ship[i[0]][i[1]] == "✈":
+                player_Y_moves[coordinates[0]][coordinates[1]] = '♨'
+                os.system("cls || clear")
+                print_board(player_Y_moves)
+                print('     HIT')
+                if  player_Y_moves[i[0]][i[1]] == '♨':
+                    player_Y_moves[i[0]][i[1]] = '☠' 
+                    player_Y_moves[coordinates[0]][coordinates[1]] = '☠'
+                    os.system("cls || clear")
+                    print_board(player_Y_moves)
+                    print('     BOOM')       
     else:
         player_Y_moves[coordinates[0]][coordinates[1]] = '≋'
         os.system("cls || clear")
