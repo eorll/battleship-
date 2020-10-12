@@ -143,7 +143,7 @@ def play_again():
          is_hit(player_1_ships, player_2_moves, get_player_move(player_2_moves))
  battleship_game() 
 
- def(main):
+ def main():
        for moves in range(6):
 
         if player_moves(moves) == player_1_moves:
