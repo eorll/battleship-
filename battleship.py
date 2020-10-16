@@ -1,14 +1,9 @@
 import os
 
-#\u001b[34;1m - dodaje niebieski kolor
-#\u001b[0m - resetuje kolor
-
 def starting_board(rows = 5, columns = 5):
     board = []
     for column in range(rows):
         board.append(["\u001b[34;1m▉\u001b[0m"] * columns)
-
-
     
     return board
 
@@ -37,7 +32,7 @@ def get_ship_place():
         try:
             os.system("cls || clear")
             print_board(board)
-            column_number = int(input("\nEnter row number: "))
+            column_number = int(input("Enter row number: "))
             row_number = int(input("Enter column number:"))
             if [column_number - 1,row_number - 1] not in forbidden_places:
                 if column_number in range(len(board[0]) + 1) and row_number in range(len(board) + 1):
@@ -51,7 +46,7 @@ def get_ship_place():
             else:
                 input("Too close to another ship!")
             for i in ship_list:
-                board[i[0]][i[1]] = "\u001b[37;1m✈\u001b[0m"
+                board[i[0]][i[1]] = "✈"
             os.system("cls || clear")
         except:
             input("Use only numbers!")
@@ -83,7 +78,7 @@ def get_player_move(player_moves):
             column_number = int(input("Column number: "))
             row_number = int(input("Row number: "))
 
-            if player_moves[row_number - 1][column_number - 1] == '▉': 
+            if player_moves[row_number - 1][column_number - 1] == '\u001b[34;1m▉\u001b[0m': 
                 return [row_number -1, column_number -1]
             else: 
                 input("Pleas enter valid move!")
@@ -95,7 +90,7 @@ def get_player_move(player_moves):
 def is_hit(player_X_ship, player_Y_moves, coordinates): 
     # powinna brać tablice player_X_ships i koordynaty z get_player_move i zwracać hit lub miss na tablicy  player_Y_moves ≋ ☠
     if player_X_ship[coordinates[0]][coordinates[1]] == "✈":
-        player_Y_moves[coordinates[0]][coordinates[1]] = '☠'
+        player_Y_moves[coordinates[0]][coordinates[1]] = '\u001b[31m☠\u001b[0m'
         os.system("cls || clear")
         print_board(player_Y_moves)
         print('     HIT')
@@ -120,13 +115,13 @@ def has_won(player_X_ships, player_Y_moves):
 
     for i in player_Y_moves:
         for j in i:
-            if j == '☠':
-                move_test.append('☠')
+            if j == '\u001b[31m☠\u001b[0m':
+                move_test.append('\u001b[31m☠\u001b[0m')
 
     for i in player_X_ships:
         for j in i:
             if j == '✈':
-                ship_test.append('☠')
+                ship_test.append('\u001b[31m☠\u001b[0m')
     
     if move_test == ship_test:
         return True
@@ -168,5 +163,7 @@ def battleship_game():
             break
 
         
-    
 battleship_game()     
+
+
+
