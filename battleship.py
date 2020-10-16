@@ -1,9 +1,9 @@
 import os
 
-def starting_board(rows = 5, columns = 5):
+def starting_board(rows, columns):
     board = []
     for column in range(rows):
-        board.append(["▉"] * columns)
+        board.append(["\u001b[34;1m▉\u001b[0m"] * columns)
     
     return board
 
@@ -23,17 +23,17 @@ def print_board(board):
         row_number += 1
     
     
-def get_ship_place(): 
+def get_ship_place(double_ships, single_ships,rows, columns): 
     # Prosi o postawienie statków (powietrznych) - następnie zwraca tablice z ustawieniami.
     ship_list = []
     forbidden_places = []
-    board = starting_board()
-    input("Put 1 double ships!")
-    while len(ship_list) != 2:
+    board = starting_board(rows, columns)
+    input(f"Put {double_ships} double ships!")
+    while len(ship_list) != (double_ships * 2):
         ship_placement(board, ship_list, forbidden_places, ship_place_coordinates(board,'double'))
 
-    input("Put 1 single ships! ")
-    while len(ship_list) != 3:
+    input(f"Put {single_ships} single ships! ")
+    while len(ship_list) != (double_ships * 2 + single_ships):
         ship_placement(board, ship_list, forbidden_places, ship_place_coordinates(board,None))
     
     return board
@@ -69,7 +69,7 @@ def ship_placement(board, ship_list, forbidden_places, ship_coordinates):
     try:
     
         if (ship_coordinates[0] and ship_coordinates[1]) not in forbidden_places:
-            if ((ship_coordinates[0][0] and ship_coordinates[0][1]) in range((len(board[0])) - 1)) and ((ship_coordinates[1][0] and ship_coordinates[1][1]) in range((len(board)) - 1)):
+            if ((ship_coordinates[0][0] and ship_coordinates[0][1]) in range(len(board[0]))) and ((ship_coordinates[1][0] and ship_coordinates[1][1]) in range((len(board)))):
                 if (ship_coordinates[0] and ship_coordinates[1]) not in ship_list:   
                     ship_list.append(ship_coordinates[0]) 
                     ship_list.append(ship_coordinates[1]) 
@@ -84,7 +84,7 @@ def ship_placement(board, ship_list, forbidden_places, ship_coordinates):
     except:
         
         if ship_coordinates not in forbidden_places:
-            if ship_coordinates[0] in range(len(board[0]) - 1) and ship_coordinates[1] in range(len(board) - 1):
+            if ship_coordinates[0] in range((len(board[0]))) and ship_coordinates[1] in range((len(board))):
                 if ship_coordinates not in ship_list:   
                     ship_list.append(ship_coordinates) 
                     taken_places(forbidden_places,ship_coordinates[0], ship_coordinates[1])
@@ -129,7 +129,7 @@ def get_player_move(player_moves):
             column_number = int(input("Column number: "))
             row_number = int(input("Row number: "))
 
-            if player_moves[row_number - 1][column_number - 1] == '▉': 
+            if player_moves[row_number - 1][column_number - 1] == '\u001b[34;1m▉\u001b[0m': 
                 return [row_number -1, column_number -1]
             else: 
                 input("Pleas enter valid move!")
@@ -143,7 +143,7 @@ def is_hit(player_X_ship, player_Y_moves, coordinates):
     arround_places = []
     taken_places(arround_places,coordinates[0], coordinates[1])
     if player_X_ship[coordinates[0]][coordinates[1]] == "✈":
-        player_Y_moves[coordinates[0]][coordinates[1]] = '☠'
+        player_Y_moves[coordinates[0]][coordinates[1]] = '\u001b[31m☠\u001b[0m'
         os.system("cls || clear")
         print_board(player_Y_moves)
         print('     HIT')
@@ -154,8 +154,8 @@ def is_hit(player_X_ship, player_Y_moves, coordinates):
                 print_board(player_Y_moves)
                 print('     HIT')
                 if  player_Y_moves[i[0]][i[1]] == '♨':
-                    player_Y_moves[i[0]][i[1]] = '☠' 
-                    player_Y_moves[coordinates[0]][coordinates[1]] = '☠'
+                    player_Y_moves[i[0]][i[1]] = '\u001b[31m☠\u001b[0m' 
+                    player_Y_moves[coordinates[0]][coordinates[1]] = '\u001b[31m☠\u001b[0m'
                     os.system("cls || clear")
                     print_board(player_Y_moves)
                     print('     BOOM')       
@@ -174,13 +174,13 @@ def has_won(player_X_ships, player_Y_moves):
 
     for i in player_Y_moves:
         for j in i:
-            if j == '☠':
-                move_test.append('☠')
+            if j == '\u001b[31m☠\u001b[0m':
+                move_test.append('\u001b[31m☠\u001b[0m')
 
     for i in player_X_ships:
         for j in i:
             if j == '✈':
-                ship_test.append('☠')
+                ship_test.append('\u001b[31m☠\u001b[0m')
     
     if move_test == ship_test:
         return True
@@ -189,19 +189,48 @@ def has_won(player_X_ships, player_Y_moves):
 
 
 def menu():
-    # to można rozwinąć - można wybrać wielkość planszy, ilość statków itp. 
+    rows = 5
+    columns = 5
+    double_ships = 1
+    single_ships = 1
+    while True:
+        os.system("cls || clear")
+        print("""        1 - Start Game
+        2 - Change board size
+        3 - Change number of ships
+        """)
+        option = input('Enter number:')
+        
+        if option == '1':
+            battleship_game(rows, columns, double_ships, single_ships)
+        if option == '2':
+            try:
+                rows = int(input('Enter number of rows: '))
+                columns = int(input("Enter number of columns: "))
+            except:
+                input("Use only numbers!")
+
+        if option == '3':
+            try:
+                double_ships = int(input("Enter numbers of double ships: "))
+                single_ships = int(input("Enter numbers od single ships: "))
+            except:
+                input("USE ONLY NUMBERS!")
+
+        
+
     pass 
 
-def battleship_game():
+def battleship_game(rows, columns, double_ships, single_ships):
 
 # board; players_1_ships; player_2_ships; player_1_moves; player_2_moves
 
-    player_1_moves = starting_board()
-    player_2_moves = starting_board()
+    player_1_moves = starting_board(rows, columns)
+    player_2_moves = starting_board(rows, columns)
     input("Player 1 - Press Enter ")
-    player_1_ships = get_ship_place()
+    player_1_ships = get_ship_place(double_ships, single_ships,rows, columns)
     input("Player 2 - Press Enter  ")
-    player_2_ships = get_ship_place()
+    player_2_ships = get_ship_place(double_ships, single_ships,rows, columns)
 
     while True:
         
@@ -220,9 +249,11 @@ def battleship_game():
             break
 
         
-battleship_game()     
+def main():
+    
+    menu()
 
-
+main()
 
 
 
