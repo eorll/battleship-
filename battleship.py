@@ -148,17 +148,20 @@ def is_hit(player_X_ship, player_Y_moves, coordinates):
         print_board(player_Y_moves)
         print('     HIT')
         for i in arround_places:
-            if player_X_ship[i[0]][i[1]] == "✈":
-                player_Y_moves[coordinates[0]][coordinates[1]] = '♨'
-                os.system("cls || clear")
-                print_board(player_Y_moves)
-                print('     HIT')
-                if  player_Y_moves[i[0]][i[1]] == '♨':
-                    player_Y_moves[i[0]][i[1]] = '\u001b[31m☠\u001b[0m' 
-                    player_Y_moves[coordinates[0]][coordinates[1]] = '\u001b[31m☠\u001b[0m'
-                    os.system("cls || clear")
-                    print_board(player_Y_moves)
-                    print('     BOOM')       
+                try:
+                    if player_X_ship[i[0]][i[1]] == "✈":
+                        player_Y_moves[coordinates[0]][coordinates[1]] = '♨'
+                        os.system("cls || clear")
+                        print_board(player_Y_moves)
+                        print('     HIT')
+                        if  player_Y_moves[i[0]][i[1]] == '♨':
+                            player_Y_moves[i[0]][i[1]] = '\u001b[31m☠\u001b[0m' 
+                            player_Y_moves[coordinates[0]][coordinates[1]] = '\u001b[31m☠\u001b[0m'
+                            os.system("cls || clear")
+                            print_board(player_Y_moves)
+                            print('     BOOM')       
+                except:
+                    pass    
     else:
         player_Y_moves[coordinates[0]][coordinates[1]] = '≋'
         os.system("cls || clear")
@@ -238,14 +241,14 @@ def battleship_game(rows, columns, double_ships, single_ships):
         os.system("cls || clear")
         is_hit(player_2_ships, player_1_moves, get_player_move(player_1_moves))
         if has_won(player_2_ships,player_1_moves) == True:
-            print('Player 1 - WON')
+            input('Player 1 - WON')
             break
         
         input("Player 2 - Press Enter ")
         os.system("cls || clear")
         is_hit(player_1_ships, player_2_moves, get_player_move(player_2_moves))
         if has_won(player_1_ships,player_2_moves) == True:
-            print('Player 2 - WON')
+            input('Player 2 - WON')
             break
 
         
