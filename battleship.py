@@ -54,9 +54,9 @@ def ship_place_coordinates(board,ship_type):
                 while True:
                     ship_position = input("Enter ship position (H/orizontial or V/ertical): ").upper()
                     if ship_position == 'H' or ship_position == 'V':
-                        if ship_position == "H":
+                        if ship_position == "V":
                             xy_2 = [column_number, row_number - 1]
-                        elif ship_position == "V":
+                        elif ship_position == "H":
                             xy_2 = [column_number - 1,row_number]
                         return [xy_1, xy_2]
                     else:
