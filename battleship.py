@@ -1,12 +1,12 @@
 import os
 
-def starting_board(rows, columns):
+def starting_board(rows, columns): 
     board = []
     for column in range(rows):
         board.append(["\u001b[34;1m▉\u001b[0m"] * columns)
-    
-    return board
 
+    return board
+# init board
 
 def print_board(board):
     column_number = []
@@ -37,7 +37,7 @@ def get_ship_place(double_ships, single_ships,rows, columns):
         ship_placement(board, ship_list, forbidden_places, ship_place_coordinates(board,None))
     
     return board
-
+    # press enter
 
 def ship_place_coordinates(board,ship_type):
     while True:
@@ -63,13 +63,14 @@ def ship_place_coordinates(board,ship_type):
                         input("Enter valid position! H or V")
         except:
             input("Use only numbers!")   
+    # try - dla nieoczywistych zdarzeń / można więcej funkcji
 
 def ship_placement(board, ship_list, forbidden_places, ship_coordinates):
     
     try:
-    
         if (ship_coordinates[0] and ship_coordinates[1]) not in forbidden_places:
-            if ((ship_coordinates[0][0] and ship_coordinates[0][1]) in range(len(board[0]))) and ((ship_coordinates[1][0] and ship_coordinates[1][1]) in range((len(board)))):
+            if ((ship_coordinates[0][0] and ship_coordinates[1][0]) in range(len(board[0]))) and \
+             ((ship_coordinates[0][1] and ship_coordinates[1][1]) in range((len(board)))):
                 if (ship_coordinates[0] and ship_coordinates[1]) not in ship_list:   
                     ship_list.append(ship_coordinates[0]) 
                     ship_list.append(ship_coordinates[1]) 
@@ -122,7 +123,8 @@ def taken_places(forbidden_places,x, y):
     
 
 def get_player_move(player_moves): 
-    # Bierze tablice ruchów gracza i sprawdza czy ruch jest możliwy do wykonania, jeśli tak zwraca koordynaty - najlepiej do funkcji is_hit i is_sunk!
+    # Bierze tablice ruchów gracza i sprawdza czy ruch jest możliwy do wykonania, 
+    # jeśli tak zwraca koordynaty - najlepiej do funkcji is_hit i is_sunk!
     while True:
         print_board(player_moves)
         try:
@@ -132,7 +134,7 @@ def get_player_move(player_moves):
             if player_moves[row_number - 1][column_number - 1] == '\u001b[34;1m▉\u001b[0m': 
                 return [row_number -1, column_number -1]
             else: 
-                input("Pleas enter valid move!")
+                input("Please enter valid move!")
             os.system("cls || clear")
         except: 
             input("Enter only numbers!")
@@ -198,11 +200,11 @@ def menu():
     single_ships = 1
     while True:
         os.system("cls || clear")
-        print("""        1 - Start Game
-        2 - Change board size
-        3 - Change number of ships
+        print("""1 - Start Game
+2 - Change board size
+3 - Change number of ships
         """)
-        option = input('Enter number:')
+        option = input( 'Enter number: ')
         
         if option == '1':
             battleship_game(rows, columns, double_ships, single_ships)
@@ -221,9 +223,6 @@ def menu():
                 input("USE ONLY NUMBERS!")
 
         
-
-    pass 
-
 def battleship_game(rows, columns, double_ships, single_ships):
 
 # board; players_1_ships; player_2_ships; player_1_moves; player_2_moves
@@ -256,7 +255,9 @@ def main():
     
     menu()
 
-main()
+if __name__ == "__main__":
+    main()
+
 
 
 
